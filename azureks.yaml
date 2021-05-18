@@ -17,14 +17,10 @@ spec:
       containers:
       - name: assign3
         image: acrassign2.azurecr.io/spring-mvc-example:v1
-        readinessProbe:
-          httpGet:
-            port: 8080
-            path: /
-        livenessProbe:
-          httpGet:
-            port: 8080
-            path: /
+        imagePullpolicy: Always
+        ports:
+        - name: http
+          containerPort: 80
         env:
         - name: ALLOW_EMPTY_PASSWORD
           value: "yes"
@@ -46,6 +42,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
   selector:
     app: assign3
