@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono;
 
 import java.sql.*;
 
-
+import com.journaldev.spring.model.Item;
 import com.journaldev.spring.model.User;
 
 @Controller
@@ -39,18 +39,26 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated User user, Model model) {
+	public String item(@Validated Item item, Model model) {
 		
-		WebClient client = WebClient.create("https://etlinuxapp.azurewebsites.net");
+		WebClient client = WebClient.create("https://assign2inventoryapp.azurewebsites.net");
+		//https://assign2inventoryapp.azurewebsites.net/inventory?userid=3
+
+		Item response = client.get().uri("/inventory?userid=" + item.getId())
+		.exchange()
+			   .block()
+			   .bodyToMono(Item.class)
+			   .block();
+model.addAttribute("userName", response.getItem());
 
 
-		User response = client.get().uri("/user?id=" + user.getId())
-						.exchange()
-                               .block()
-                               .bodyToMono(User.class)
-                               .block();
-		model.addAttribute("userName", response.getName());
-		return "user";
+		// User response = client.get().uri("/user?id=" + user.getId())
+		// 				.exchange()
+        //                        .block()
+        //                        .bodyToMono(User.class)
+        //                        .block();
+		// model.addAttribute("userName", response.getName());
+		return "item";
 	}
 
 
@@ -63,34 +71,34 @@ public class HomeController {
     //     return new User(uid, username);
     // }
 
-	private static String getUsername(int id) {
-		Connection c = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:Users.db");
-			c.setAutoCommit(false);
-			System.out.println("Opened database successfully");
-			String sql = "SELECT Name FROM Users WHERE Id = ?";			  
-			PreparedStatement pstmt  = c.prepareStatement(sql);
+// 	private static String getUsername(int id) {
+// 		Connection c = null;
+// 		try {
+// 			Class.forName("org.sqlite.JDBC");
+// 			c = DriverManager.getConnection("jdbc:sqlite:Users.db");
+// 			c.setAutoCommit(false);
+// 			System.out.println("Opened database successfully");
+// 			String sql = "SELECT Name FROM Users WHERE Id = ?";			  
+// 			PreparedStatement pstmt  = c.prepareStatement(sql);
 
-            // set the value
-            pstmt.setInt(1,id);
+//             // set the value
+//             pstmt.setInt(1,id);
 			
-            //
-            ResultSet rs  = pstmt.executeQuery();
+//             //
+//             ResultSet rs  = pstmt.executeQuery();
 			
-			String name ="";
+// 			String name ="";
             
-            // loop through the result set
-            while (rs.next()) {
-                name = rs.getString("Name");
-            }
+//             // loop through the result set
+//             while (rs.next()) {
+//                 name = rs.getString("Name");
+//             }
 
-			return name;
+// 			return name;
 
-        }	
-		catch ( Exception e ) {
-			return e.toString(); //This would be a security issue in a production system
-		}
-   }
+//         }	
+// 		catch ( Exception e ) {
+// 			return e.toString(); //This would be a security issue in a production system
+// 		}
+//    }
 }
