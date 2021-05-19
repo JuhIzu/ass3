@@ -39,7 +39,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String item(@Validated Item item, Model model) {
+	public String user(@Validated Item item, Model model) {
 		
 		WebClient client = WebClient.create("https://assign2inventoryapp.azurewebsites.net");
 		//https://assign2inventoryapp.azurewebsites.net/inventory?userid=3
@@ -49,7 +49,7 @@ public class HomeController {
 			   .block()
 			   .bodyToMono(Item.class)
 			   .block();
-model.addAttribute("userName", response.getItem());
+		model.addAttribute("userName", response.getItem());
 
 
 		// User response = client.get().uri("/user?id=" + user.getId())
@@ -58,8 +58,9 @@ model.addAttribute("userName", response.getItem());
         //                        .bodyToMono(User.class)
         //                        .block();
 		// model.addAttribute("userName", response.getName());
-		return "item";
+		return "user";
 	}
+
 
 
 	// @CrossOrigin(origins = "*", allowedHeaders = "*")
