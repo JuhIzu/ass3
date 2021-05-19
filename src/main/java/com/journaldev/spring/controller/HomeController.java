@@ -45,13 +45,13 @@ public class HomeController {
 		//https://assign2inventoryapp.azurewebsites.net/inventory?userid=3
 
 
-		String response = client.get().uri("/inventory?userid=" + user.getId())
+		User response = client.get().uri("/inventory?userid=" + user.getId())
 						.exchange()
                                .block()
-                               .bodyToMono(String.class)
+                               .bodyToMono(User.class)
                                .block();
-		//model.addAttribute("userName", response.getName());
-		return response;
+		model.addAttribute("userName", response.getName());
+		return "user";
 	}
 
 
