@@ -41,11 +41,10 @@ public class HomeController {
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public String user(@Validated User user, Model model) {
 		
-		WebClient client = WebClient.create("https://assign2inventoryapp.azurewebsites.net");
-		//https://assign2inventoryapp.azurewebsites.net/inventory?userid=3
+		WebClient client = WebClient.create("https://etlinuxapp.azurewebsites.net");
 
 
-		User response = client.get().uri("/inventory?userid=" + user.getId())
+		User response = client.get().uri("/user?id=" + user.getId())
 						.exchange()
                                .block()
                                .bodyToMono(User.class)
