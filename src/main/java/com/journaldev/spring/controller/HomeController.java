@@ -39,7 +39,7 @@ public class HomeController {
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public String user(@Validated User user, Model model) {
 		
-		WebClient client = WebClient.create("https://etlinuxapp.azurewebsites.net");
+		WebClient client = WebClient.create("https://assign3userservice.azurewebsites.net");
 
 
 		User response = client.get().uri("/user?id=" + user.getId())
