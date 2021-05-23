@@ -48,6 +48,6 @@ public class HomeController {
                                .bodyToMono(String.class)
                                .block();
 		model.addAttribute("userName", response);
-		return "user";
+		return response;
 	}
 }
