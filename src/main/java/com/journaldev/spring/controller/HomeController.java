@@ -37,17 +37,17 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public String user(@Validated String user, Model model) {
+	public String user(@Validated User user, Model model) {
 		
 		WebClient client = WebClient.create("https://assign3userservice.azurewebsites.net");
 
 
-		String response = client.get().uri("/user?id=" + 1)
+		User response = client.get().uri("/user?id=" + user.getId())
 				.exchange()
                                .block()
-                               .bodyToMono(String.class)
+                               .bodyToMono(User.class)
                                .block();
-		model.addAttribute("userName", response);
-		return response;
+		model.addAttribute("userName", response.getName());
+		return "user";
 	}
 }
