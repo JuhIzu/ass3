@@ -43,9 +43,7 @@ public class HomeController {
 
 
 		String response = client.get().uri("/user?id=" + 1)
-				.header("ContentType", "application/json")
-				.accept(MediaType.APPLICATION_JSON)
-						.exchange()
+				.exchange()
                                .block()
                                .bodyToMono(String.class)
                                .block();
