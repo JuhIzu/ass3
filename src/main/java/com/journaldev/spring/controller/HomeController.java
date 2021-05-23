@@ -43,7 +43,7 @@ public class HomeController {
 
 
 		User response = client.get().uri("/user?id=" + user.getId())
-				.exchange()
+						.exchange()
                                .block()
                                .bodyToMono(User.class)
                                .block();
