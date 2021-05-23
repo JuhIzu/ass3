@@ -45,6 +45,7 @@ public class HomeController {
 		User response = client.get().uri("/user?id=" + user.getId())
 						.exchange()
                                .block()
+			.accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML)
                                .bodyToMono(User.class)
                                .block();
 		model.addAttribute("userName", response.getName());
