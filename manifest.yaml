@@ -16,10 +16,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: assign3
-        image: acrassign2.azurecr.io/spring-mvc-example:v1
-        ports:
-        - name: http
-          containerPort: 80
+        image: acrassign2.azurecr.io/spring-mvc-example:v1	
         env:
         - name: ALLOW_EMPTY_PASSWORD
           value: "yes"
@@ -29,11 +26,12 @@ spec:
             memory: 128Mi
           limits:
             cpu: 250m
-            memory: 256Mi    
+            memory: 256Mi
         ports:
-          - containerPort: 80
-
----
+        - containerPort: 80
+          name: http
+	  
+  ---
 apiVersion: v1
 kind: Service
 metadata:
@@ -42,10 +40,9 @@ spec:
   type: LoadBalancer
   ports:
   - name: http
-	protocol: TCP
+    protocol: TCP
     port: 8080
     targetPort: 8080
-	nodePort: 30007
-    
+    nodePort: 30007
   selector:
     app: assign3
