@@ -42,7 +42,7 @@ public class HomeController {
 		WebClient client = WebClient.create("https://assign3userservice.azurewebsites.net");
 
 
-		String response = client.get().uri("/user?id=" + user.getId())
+		String response = client.get().uri("/user?id=" + 1)
 				.header("ContentType", "application/json")
 				.accept(MediaType.APPLICATION_JSON)
 						.exchange()
